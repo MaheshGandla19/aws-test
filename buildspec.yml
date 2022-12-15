@@ -4,6 +4,7 @@ version: 0.2
 phases:
   pre_build:
     commands:
+      - mvn clean install
       - echo Logging in to Amazon ECR...
       - aws --version
       - $(aws ecr get-login --region us-east-1 --no-include-email)
@@ -14,7 +15,7 @@ phases:
     commands:
       - echo Build started on `date`
       - echo Building the Docker image...
-      - docker build --tag $REPOSITORY_URI:latest .
+      - docker build -t $REPOSITORY_URI:latest .
       - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
   post_build:
     commands:
